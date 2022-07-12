@@ -1,0 +1,9 @@
+
+.bg-image{
+    /* background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(255,101,158,1) 100%); */
+    background-image: url("../img/food.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    backdrop-filter: blur(4px);
+}

@@ -1,0 +1,48 @@
+pipelines:
+  custom:
+    production:
+      - step:
+          name: Installing and building
+          image: node:14
+          script:
+            - npm install
+            - unset CI
+            - npm run build
+          artifacts:
+            - build/**
+      - step:
+          name: Deploying to S3
+          deployment: production
+          script:
+              - pipe: atlassian/aws-s3-deploy:0.2.4
+                variables:
+                    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+                    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                    AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+                    S3_BUCKET: $S3_BUCKET
+                    ACL: "bucket-owner-full-control"
+                    LOCAL_PATH: "build"
+                  
+  branches:
+    master:
+      - step:
+          name: Installing and building
+          image: node:14
+          script:
+            - npm install
+            - unset CI
+            - npm run build
+          artifacts:
+            - build/**
+      - step:
+          name: Deploying to S3
+          deployment: production
+          script:
+              - pipe: atlassian/aws-s3-deploy:0.2.4
+                variables:
+                    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+                    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                    AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+                    S3_BUCKET: $S3_BUCKET
+                    ACL: "bucket-owner-full-control"
+                    LOCAL_PATH: "build"
